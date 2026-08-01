@@ -1,0 +1,33 @@
+{
+  "name": "brewline-cafe",
+  "version": "1.0.0",
+  "description": "Brewline Cafe — Fast-casual specialty coffee & food ordering platform",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "cd server && npm run dev",
+    "dev:client": "cd client && npm run dev",
+    "install:all": "cd server && npm install && cd ../client && npm install",
+    "seed": "cd server && npm run seed",
+    "test": "cd server && npm test",
+    "lint": "cd server && npm run lint && cd ../client && npm run lint"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "cafe",
+    "coffee",
+    "ordering",
+    "fullstack",
+    "react",
+    "express",
+    "mongodb",
+    "stripe"
+  ],
+  "author": "",
+  "license": "ISC"
+}
