@@ -10,8 +10,8 @@ import cors from 'cors';
 import helmet from 'helmet';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
-import morgan from 'morgan';
 import { env } from './config/env.js';
+import { requestLogger } from './middleware/logger.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import { notFound } from './middleware/notFound.js';
 import routes from './routes/index.js';
@@ -36,9 +36,7 @@ app.use(cookieParser());
 app.use(compression());
 
 // ── Logging ─────────────────────────────────
-if (env.NODE_ENV === 'development') {
-  app.use(morgan('dev'));
-}
+app.use(requestLogger);
 
 // ── Routes ──────────────────────────────────
 app.use('/api', routes);
