@@ -9,6 +9,7 @@ import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { Profile } from './pages/Profile';
 import { Menu } from './pages/Menu';
+import { Cart } from './pages/Cart';
 
 function App() {
   return (
@@ -38,8 +39,9 @@ function App() {
                 <Route path="profile" element={<Profile />} />
               </Route>
               
-              {/* Menu */}
+              {/* Menu & Cart */}
               <Route path="menu" element={<Menu />} />
+              <Route path="cart" element={<Cart />} />
               
               {/* Future Routes */}
               {/* <Route path="track" element={<TrackOrder />} /> */}
