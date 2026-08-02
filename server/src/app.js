@@ -16,6 +16,8 @@ import { errorHandler } from './middleware/errorHandler.js';
 import { notFound } from './middleware/notFound.js';
 import routes from './routes/index.js';
 
+import webhookRoutes from './routes/webhooks.js';
+
 const app = express();
 
 // ── Security ────────────────────────────────
@@ -26,6 +28,9 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
+
+// ── Webhooks (Must bypass JSON parser) ──────
+app.use('/api/payments/webhook', express.raw({ type: 'application/json' }), webhookRoutes);
 
 // ── Body Parsing ────────────────────────────
 app.use(express.json({ limit: '10mb' }));

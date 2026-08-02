@@ -5,9 +5,9 @@ import { Elements } from '@stripe/react-stripe-js';
 import { ArrowRight, ArrowLeft } from 'lucide-react';
 import toast from 'react-hot-toast';
 
-import api from '../../api/axios';
-import { AuthContext } from '../../context/AuthContext';
-import { useCart } from '../../hooks/useCart';
+import api from '../api/axios';
+import { AuthContext } from '../context/AuthContext';
+import { useCart } from '../hooks/useCart';
 
 import { OrderSummary } from '../components/checkout/OrderSummary';
 import { PickupTimeSelector } from '../components/checkout/PickupTimeSelector';
