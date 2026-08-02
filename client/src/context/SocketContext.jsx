@@ -13,7 +13,8 @@ export const SocketProvider = ({ children }) => {
   const [staffSocket, setStaffSocket] = useState(null);
 
   useEffect(() => {
-    const SOCKET_URL = import.meta.env.VITE_API_URL.replace('/api', '');
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+    const SOCKET_URL = apiUrl.replace('/api', '');
 
     // 1. Orders Socket (Public)
     const oSocket = io(`${SOCKET_URL}/orders`, {

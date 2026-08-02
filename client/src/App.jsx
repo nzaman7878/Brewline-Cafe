@@ -13,6 +13,7 @@ import { Menu } from './pages/Menu';
 import { Cart } from './pages/Cart';
 import { Checkout } from './pages/Checkout';
 import { OrderConfirmation } from './pages/OrderConfirmation';
+import { OrderTracking } from './pages/OrderTracking';
 
 function App() {
   return (
@@ -50,7 +51,8 @@ function App() {
                 <Route path="order-confirmation/:id" element={<OrderConfirmation />} />
                 
                 {/* Future Routes */}
-                {/* <Route path="track" element={<TrackOrder />} /> */}
+                <Route path="track" element={<OrderTracking />} />
+                <Route path="track/:id" element={<OrderTracking />} />
                 <Route path="*" element={<div className="p-8 text-center">404 - Not Found</div>} />
               </Route>
             </Routes>
