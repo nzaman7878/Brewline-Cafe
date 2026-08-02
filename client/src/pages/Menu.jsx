@@ -4,12 +4,13 @@ import { useMenu } from '../hooks/useMenu';
 import { CategoryTabs } from '../components/menu/CategoryTabs';
 import { MenuSearch } from '../components/menu/MenuSearch';
 import { MenuItemCard, MenuItemSkeleton } from '../components/menu/MenuItemCard';
+import { ItemDetail } from '../components/menu/ItemDetail';
 import { Button } from '../components/ui/Button';
-import { Spinner } from '../components/ui/Spinner';
 
 export const Menu = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedMenuItem, setSelectedMenuItem] = useState(null);
   
   const { items, categories, isLoading, error } = useMenu(selectedCategory, searchQuery);
   
@@ -22,6 +23,14 @@ export const Menu = () => {
 
   const handleCategorySelect = (category) => {
     setSelectedCategory(category);
+  };
+
+  const openItemDetail = (item) => {
+    setSelectedMenuItem(item);
+  };
+
+  const closeItemDetail = () => {
+    setSelectedMenuItem(null);
   };
 
   return (
@@ -74,7 +83,6 @@ export const Menu = () => {
                 onClick={() => {
                   setSelectedCategory('All');
                   setSearchQuery('');
-                  // Note: MenuSearch component has its own local state, ideally we'd pass this down to clear it
                 }}
               >
                 Clear Filters
@@ -90,7 +98,7 @@ export const Menu = () => {
                 className="animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both"
                 style={{ animationDelay: `${index * 50}ms` }}
               >
-                <MenuItemCard item={item} />
+                <MenuItemCard item={item} onClick={openItemDetail} />
               </div>
             ))}
           </div>
@@ -108,6 +116,13 @@ export const Menu = () => {
           )}
         </button>
       </div>
+
+      {/* Item Detail Modal */}
+      <ItemDetail 
+        isOpen={!!selectedMenuItem} 
+        onClose={closeItemDetail} 
+        item={selectedMenuItem} 
+      />
     </div>
   );
 };

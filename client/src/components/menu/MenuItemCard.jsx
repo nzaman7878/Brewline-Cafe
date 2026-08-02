@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Plus } from 'lucide-react';
 import { Button } from '../ui/Button';
 
-export const MenuItemCard = ({ item }) => {
+export const MenuItemCard = ({ item, onClick }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const imageRef = useRef(null);
@@ -36,13 +36,14 @@ export const MenuItemCard = ({ item }) => {
     <div className="group flex flex-col bg-surface rounded-card border border-outline overflow-hidden hover:shadow-lg transition-all duration-300 animate-in fade-in zoom-in-95 fill-mode-both">
       <div 
         ref={imageRef} 
-        className="relative w-full aspect-[4/3] bg-surface-variant overflow-hidden"
+        className="relative w-full aspect-[4/3] bg-surface-variant overflow-hidden cursor-pointer"
+        onClick={() => item.isAvailable && onClick && onClick(item)}
       >
         {isVisible && (
           <img
             src={imageUrl}
             alt={item.name}
-            className={`w-full h-full object-cover transition-opacity duration-500 ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`}
+            className={`w-full h-full object-cover transition-opacity duration-500 group-hover:scale-105 ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`}
             onLoad={() => setIsImageLoaded(true)}
           />
         )}
@@ -57,8 +58,8 @@ export const MenuItemCard = ({ item }) => {
       </div>
 
       <div className="p-5 flex flex-col flex-1">
-        <div className="flex justify-between items-start mb-2">
-          <h3 className="font-headline font-bold text-lg text-on-surface line-clamp-1">{item.name}</h3>
+        <div className="flex justify-between items-start mb-2 cursor-pointer" onClick={() => item.isAvailable && onClick && onClick(item)}>
+          <h3 className="font-headline font-bold text-lg text-on-surface line-clamp-1 group-hover:text-primary transition-colors">{item.name}</h3>
           <span className="font-label font-semibold text-primary ml-4">${item.price.toFixed(2)}</span>
         </div>
         
@@ -70,12 +71,12 @@ export const MenuItemCard = ({ item }) => {
           variant={item.isAvailable ? 'primary' : 'secondary'} 
           className="w-full mt-auto"
           disabled={!item.isAvailable}
-          // onClick={() => {}} // Phase 14: Add to cart modal
+          onClick={() => onClick && onClick(item)}
         >
           {item.isAvailable ? (
             <>
               <Plus size={18} className="mr-2" />
-              Add to Order
+              Customize
             </>
           ) : (
             'Sold Out'
