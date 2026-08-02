@@ -10,6 +10,8 @@ import { Register } from './pages/Register';
 import { Profile } from './pages/Profile';
 import { Menu } from './pages/Menu';
 import { Cart } from './pages/Cart';
+import { Checkout } from './pages/Checkout';
+import { OrderConfirmation } from './pages/OrderConfirmation';
 
 function App() {
   return (
@@ -39,9 +41,11 @@ function App() {
                 <Route path="profile" element={<Profile />} />
               </Route>
               
-              {/* Menu & Cart */}
+              {/* Menu & Cart & Checkout */}
               <Route path="menu" element={<Menu />} />
               <Route path="cart" element={<Cart />} />
+              <Route path="checkout" element={<Checkout />} />
+              <Route path="order-confirmation/:id" element={<OrderConfirmation />} />
               
               {/* Future Routes */}
               {/* <Route path="track" element={<TrackOrder />} /> */}
