@@ -1,7 +1,9 @@
-import { createContext, useReducer, useEffect, useMemo } from 'react';
+import { createContext, useReducer, useEffect, useMemo, useContext, useRef } from 'react';
+import api from '../api/axios';
+import { AuthContext } from './AuthContext';
 
 const generateItemKey = (menuItemId, selectedOptions) => {
-  const keys = Object.keys(selectedOptions).sort();
+  const keys = Object.keys(selectedOptions || {}).sort();
   const serialized = keys.map(k => {
     const val = selectedOptions[k];
     if (Array.isArray(val)) {
@@ -24,12 +26,10 @@ const cartReducer = (state, action) => {
       const existingItemIndex = state.items.findIndex(item => item.key === key);
 
       if (existingItemIndex >= 0) {
-        // Item exists, update quantity
         const updatedItems = [...state.items];
         updatedItems[existingItemIndex].quantity += quantity;
         return { ...state, items: updatedItems };
       } else {
-        // Add new item
         return {
           ...state,
           items: [...state.items, { ...action.payload, key }]
@@ -75,6 +75,10 @@ const cartReducer = (state, action) => {
 export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
+  const { isAuthenticated, user, isLoading: authLoading } = useContext(AuthContext);
+  const isInitialSyncDone = useRef(false);
+  const debounceTimer = useRef(null);
+  
   const [state, dispatch] = useReducer(cartReducer, initialState, (initial) => {
     try {
       const localData = localStorage.getItem('brewline_cart');
@@ -85,10 +89,51 @@ export const CartProvider = ({ children }) => {
     }
   });
 
-  // Persist to localStorage whenever state changes
+  // Sync with backend on login / initial load if authenticated
   useEffect(() => {
+    const syncWithServer = async () => {
+      if (isAuthenticated && user && !authLoading && !isInitialSyncDone.current) {
+        try {
+          const localItems = state.items;
+          const { data } = await api.post('/cart/sync', { localItems });
+          dispatch({ type: 'SET_CART', payload: { items: data.data.items } });
+          isInitialSyncDone.current = true;
+        } catch (error) {
+          console.error('Failed to sync cart with server:', error);
+        }
+      }
+    };
+    
+    // Reset initial sync flag if user logs out
+    if (!isAuthenticated && !authLoading) {
+      isInitialSyncDone.current = false;
+    }
+
+    syncWithServer();
+  }, [isAuthenticated, user, authLoading]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Persist state changes
+  useEffect(() => {
+    // 1. Always save to localStorage (helps guest users and acts as local cache)
     localStorage.setItem('brewline_cart', JSON.stringify(state));
-  }, [state]);
+
+    // 2. If authenticated & initial sync is done, debounce save to server
+    if (isAuthenticated && isInitialSyncDone.current) {
+      if (debounceTimer.current) clearTimeout(debounceTimer.current);
+      
+      debounceTimer.current = setTimeout(async () => {
+        try {
+          await api.put('/cart', { items: state.items });
+        } catch (error) {
+          console.error('Failed to update cart on server:', error);
+        }
+      }, 1000); // 1s debounce
+    }
+    
+    return () => {
+      if (debounceTimer.current) clearTimeout(debounceTimer.current);
+    };
+  }, [state, isAuthenticated]);
 
   const addItem = (item) => {
     dispatch({ type: 'ADD_ITEM', payload: item });
@@ -106,7 +151,6 @@ export const CartProvider = ({ children }) => {
     dispatch({ type: 'CLEAR_CART' });
   };
 
-  // Computed properties
   const cartItemCount = useMemo(() => {
     return state.items.reduce((total, item) => total + item.quantity, 0);
   }, [state.items]);
