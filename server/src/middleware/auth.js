@@ -26,14 +26,28 @@ export const protect = asyncHandler(async (req, res, next) => {
   next();
 });
 
-export const authorize = (...roles) => {
-  return (req, res, next) => {
-    if (!roles.includes(req.user.role)) {
-      throw new ApiError(403, `User role '${req.user.role}' is not authorized to access this route`);
-    }
-    next();
-  };
-};
+export const optionalAuth = asyncHandler(async (req, res, next) => {
+  let token;
+  
+  if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+    token = req.headers.authorization.split(' ')[1];
+  }
+
+  if (!token) {
+    req.user = null; // No token, treat as guest
+    return next();
+  }
+
+  try {
+    const decoded = verifyAccessToken(token);
+    const user = await User.findById(decoded.userId).select('-password');
+    req.user = user || null;
+  } catch (error) {
+    req.user = null; // Invalid token, ignore and treat as guest
+  }
+
+  next();
+});
 
 export const validateRequest = (schema) => {
   return (req, res, next) => {
