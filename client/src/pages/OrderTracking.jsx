@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { SocketContext } from '../../context/SocketContext';
-import api from '../../api/axios';
+import { SocketContext } from '../context/SocketContext';
+import api from '../api/axios';
 import { OrderStatusTracker } from '../components/orders/OrderStatusTracker';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
