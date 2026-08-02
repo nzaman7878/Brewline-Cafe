@@ -31,15 +31,18 @@ api.interceptors.response.use(
       originalRequest._retry = true;
       
       try {
-        // Implement refresh logic here in Phase 6/9
-        // const res = await axios.post('/api/auth/refresh', {}, { withCredentials: true });
-        // const newAccessToken = res.data.accessToken;
-        // localStorage.setItem('accessToken', newAccessToken);
-        // originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-        // return api(originalRequest);
-        
-        // For now, if 401, clear token
-        localStorage.removeItem('accessToken');
+        const res = await axios.post(
+          '/api/auth/refresh',
+          {},
+          { 
+            baseURL: import.meta.env.VITE_API_URL || '',
+            withCredentials: true 
+          }
+        );
+        const newAccessToken = res.data.accessToken;
+        localStorage.setItem('accessToken', newAccessToken);
+        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+        return api(originalRequest);
       } catch (refreshError) {
         localStorage.removeItem('accessToken');
         window.location.href = '/login';
