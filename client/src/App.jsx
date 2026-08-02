@@ -7,6 +7,7 @@ import { Home } from './pages/Home';
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { Profile } from './pages/Profile';
+import { Menu } from './pages/Menu';
 
 function App() {
   return (
@@ -35,8 +36,10 @@ function App() {
               <Route path="profile" element={<Profile />} />
             </Route>
             
+            {/* Menu */}
+            <Route path="menu" element={<Menu />} />
+            
             {/* Future Routes */}
-            {/* <Route path="menu" element={<Menu />} /> */}
             {/* <Route path="track" element={<TrackOrder />} /> */}
             <Route path="*" element={<div className="p-8 text-center">404 - Not Found</div>} />
           </Route>
