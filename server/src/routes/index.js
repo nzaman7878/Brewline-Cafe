@@ -6,6 +6,7 @@
  */
 
 import { Router } from 'express';
+import authRoutes from './auth.js';
 
 const router = Router();
 
@@ -20,7 +21,7 @@ router.get('/health', (req, res) => {
 });
 
 // ── Route Modules (will be added in subsequent phases) ──
-// router.use('/auth', authRoutes);
+router.use('/auth', authRoutes);
 // router.use('/menu', menuRoutes);
 // router.use('/cart', cartRoutes);
 // router.use('/orders', orderRoutes);
