@@ -6,6 +6,7 @@
 
 import app from './app.js';
 import { connectDB } from './config/db.js';
+import { initSocket } from './config/socket.js';
 import { env } from './config/env.js';
 import { logger } from './utils/logger.js';
 
@@ -21,6 +22,9 @@ const startServer = async () => {
       logger.info(`📍 Environment: ${env.NODE_ENV}`);
       logger.info(`🔗 API: http://localhost:${env.PORT}/api`);
     });
+
+    // Initialize Socket.io
+    initSocket(server);
 
     // Graceful shutdown
     const gracefulShutdown = (signal) => {
