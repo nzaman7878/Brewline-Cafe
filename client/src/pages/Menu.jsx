@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ShoppingBag } from 'lucide-react';
 import { useMenu } from '../hooks/useMenu';
+import { useCart } from '../hooks/useCart';
 import { CategoryTabs } from '../components/menu/CategoryTabs';
 import { MenuSearch } from '../components/menu/MenuSearch';
 import { MenuItemCard, MenuItemSkeleton } from '../components/menu/MenuItemCard';
@@ -13,9 +14,7 @@ export const Menu = () => {
   const [selectedMenuItem, setSelectedMenuItem] = useState(null);
   
   const { items, categories, isLoading, error } = useMenu(selectedCategory, searchQuery);
-  
-  // Fake cart context for UI representation (will be implemented in Phase 15/16)
-  const cartItemCount = 0;
+  const { cartItemCount } = useCart();
 
   const handleSearch = (term) => {
     setSearchQuery(term);

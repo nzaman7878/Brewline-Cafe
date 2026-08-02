@@ -3,9 +3,10 @@ import { X, Info } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { QuantityStepper } from './QuantityStepper';
 import { CustomizationGroup } from './CustomizationGroup';
+import { useCart } from '../../hooks/useCart';
 import toast from 'react-hot-toast';
 
-export const ItemDetail = ({ isOpen, onClose, item, onAddToCart }) => {
+export const ItemDetail = ({ isOpen, onClose, item }) => {
   const [quantity, setQuantity] = useState(1);
   const [selectedOptions, setSelectedOptions] = useState({});
 
@@ -60,17 +61,19 @@ export const ItemDetail = ({ isOpen, onClose, item, onAddToCart }) => {
     }));
   };
 
+  const { addItem } = useCart();
+
   const handleAddToCart = () => {
-    // Phase 15/16: Actually add to cart context
     const cartItem = {
-      menuItem: item,
+      menuItemId: item._id,
+      name: item.name,
+      imageUrl: item.image,
       quantity,
       selectedOptions,
-      totalPrice
+      unitPrice: totalPrice / quantity, // Store the unit price including customizations
     };
     
-    // Fake adding to cart for now
-    if (onAddToCart) onAddToCart(cartItem);
+    addItem(cartItem);
     toast.success(`Added ${quantity} ${item.name} to cart`);
     onClose();
   };
