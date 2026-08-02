@@ -23,6 +23,7 @@ router.get('/health', (req, res) => {
 
 import cartRoutes from './cart.js';
 import promoRoutes from './promo.js';
+import paymentRoutes from './payments.js';
 
 // ── Route Modules (will be added in subsequent phases) ──
 router.use('/auth', authRoutes);
@@ -30,7 +31,7 @@ router.use('/menu', menuRoutes);
 router.use('/cart', cartRoutes);
 // router.use('/orders', orderRoutes);
 router.use('/promo', promoRoutes);
-// router.use('/payments', paymentRoutes);
+router.use('/payments', paymentRoutes);
 // router.use('/staff', staffRoutes);
 // router.use('/admin', adminRoutes);
 
