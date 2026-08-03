@@ -130,6 +130,21 @@ export const refundOrder = asyncHandler(async (req, res) => {
   res.status(200).json({ success: true, data: order });
 });
 
+export const forceUpdateOrderStatus = asyncHandler(async (req, res) => {
+  const { status } = req.body;
+  const order = await Order.findById(req.params.id);
+  if (!order) throw new ApiError(404, 'Order not found');
+  
+  order.status = status;
+  await order.save();
+  
+  const io = getIO();
+  io.of('/orders').to(`order:${order._id}`).emit('order-updated', order);
+  io.of('/staff').to('staff:queue').emit('queue-updated', order);
+  
+  res.status(200).json({ success: true, data: order });
+});
+
 // ─── ANALYTICS ──────────────────────────────────────────────
 
 export const getAnalytics = asyncHandler(async (req, res) => {

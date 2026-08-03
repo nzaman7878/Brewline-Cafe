@@ -16,6 +16,7 @@ export const AdminDashboard = () => {
     { name: 'Overview', path: '/admin/overview', icon: LayoutDashboard },
     { name: 'Menu Manager', path: '/admin/menu', icon: Coffee },
     { name: 'Promotions', path: '/admin/promos', icon: Tag },
+    { name: 'Orders', path: '/admin/orders', icon: LayoutDashboard },
     { name: 'Analytics', path: '/admin/analytics', icon: BarChart3 },
     { name: 'Users', path: '/admin/users', icon: Users },
   ];

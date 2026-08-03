@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { 
   createMenuItem, updateMenuItem, deleteMenuItem,
   getPromoCodes, createPromoCode, updatePromoCode, deletePromoCode,
-  getOrders, refundOrder,
+  getOrders, refundOrder, forceUpdateOrderStatus,
   getAnalytics,
   getUsers, updateUserRole
 } from '../controllers/adminController.js';
@@ -29,6 +29,7 @@ router.delete('/promo-codes/:id', deletePromoCode);
 // Orders & Refunds
 router.get('/orders', getOrders);
 router.post('/orders/:id/refund', refundOrder);
+router.put('/orders/:id/status', forceUpdateOrderStatus);
 
 // Analytics
 router.get('/analytics', getAnalytics);

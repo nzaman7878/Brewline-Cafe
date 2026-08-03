@@ -19,6 +19,7 @@ import { AvailabilityPanel } from './pages/staff/AvailabilityPanel';
 import { AdminDashboard } from './pages/admin/AdminDashboard';
 import { MenuManager } from './pages/admin/MenuManager';
 import { PromoManager } from './pages/admin/PromoManager';
+import { OrderManager } from './pages/admin/OrderManager';
 
 function App() {
   return (
@@ -68,6 +69,7 @@ function App() {
                   {/* Default to menu manager for now, overview will be built next */}
                   <Route path="menu" element={<MenuManager />} />
                   <Route path="promos" element={<PromoManager />} />
+                  <Route path="orders" element={<OrderManager />} />
                 </Route>
                 
                 <Route path="*" element={<div className="p-8 text-center">404 - Not Found</div>} />
