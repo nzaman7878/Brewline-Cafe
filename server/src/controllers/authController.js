@@ -1,6 +1,7 @@
 import { User } from '../models/User.js';
 import { ApiError } from '../utils/ApiError.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
+import { notificationQueue } from '../services/notificationQueue.js';
 import { signAccessToken, signRefreshToken, verifyRefreshToken } from '../utils/jwt.js';
 import { env } from '../config/env.js';
 
@@ -48,6 +49,8 @@ export const register = asyncHandler(async (req, res) => {
     password,
     phone,
   });
+
+  notificationQueue.notifyWelcome(user);
 
   sendTokenResponse(user, 201, res);
 });

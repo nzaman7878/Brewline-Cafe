@@ -2,6 +2,8 @@ import { Router } from 'express';
 import Stripe from 'stripe';
 import { Order } from '../models/Order.js';
 import { WebhookEvent } from '../models/WebhookEvent.js';
+import { getIO } from '../config/socket.js';
+import { notificationQueue } from '../services/notificationQueue.js';
 
 const router = Router();
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_mock', {
@@ -34,10 +36,19 @@ router.post('/', async (req, res) => {
     switch (event.type) {
       case 'payment_intent.succeeded': {
         const paymentIntent = event.data.object;
-        await Order.findOneAndUpdate(
+        const order = await Order.findOneAndUpdate(
           { paymentIntentId: paymentIntent.id },
-          { status: 'paid' }
+          { status: 'paid' },
+          { new: true }
         );
+        if (order) {
+          logger.info(`Order ${order._id} marked as paid`);
+          const io = getIO();
+          io.of('/orders').to(`order:${order._id}`).emit('payment-success', order);
+          io.of('/staff').to('staff:queue').emit('new-order', order);
+          
+          notificationQueue.notifyOrderConfirmation(order);
+        }
         break;
       }
       case 'payment_intent.payment_failed': {

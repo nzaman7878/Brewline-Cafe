@@ -3,6 +3,7 @@ import { MenuItem } from '../models/MenuItem.js';
 import { ApiError } from '../utils/ApiError.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
 import { getIO } from '../config/socket.js';
+import { notificationQueue } from '../services/notificationQueue.js';
 
 /**
  * @desc    Get active orders (queue)
@@ -69,6 +70,11 @@ export const updateOrderStatus = asyncHandler(async (req, res) => {
     
     // 2. Alert all staff dashboards to re-render the queue
     io.of('/staff').to('staff:queue').emit('queue-updated', order);
+    
+    // 3. Send Notifications
+    if (status === 'ready_for_pickup') {
+      notificationQueue.notifyOrderReady(order);
+    }
   } catch (error) {
     console.error('Socket error on order update:', error);
   }

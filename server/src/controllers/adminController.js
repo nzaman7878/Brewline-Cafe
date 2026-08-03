@@ -7,6 +7,7 @@ import { asyncHandler } from '../utils/asyncHandler.js';
 import { refundPaymentIntent } from '../services/stripeService.js';
 import { getIO } from '../config/socket.js';
 import { cloudinary } from '../config/cloudinary.js';
+import { notificationQueue } from '../services/notificationQueue.js';
 
 // ─── MENU ITEM CRUD ──────────────────────────────────────────────
 
@@ -126,6 +127,8 @@ export const refundOrder = asyncHandler(async (req, res) => {
   const io = getIO();
   io.of('/orders').to(`order:${order._id}`).emit('order-updated', order);
   io.of('/staff').to('staff:queue').emit('queue-updated', order);
+
+  notificationQueue.notifyRefund(order);
 
   res.status(200).json({ success: true, data: order });
 });
