@@ -15,6 +15,7 @@ import { Checkout } from './pages/Checkout';
 import { OrderConfirmation } from './pages/OrderConfirmation';
 import { OrderTracking } from './pages/OrderTracking';
 import { StaffDashboard } from './pages/staff/StaffDashboard';
+import { AvailabilityPanel } from './pages/staff/AvailabilityPanel';
 
 function App() {
   return (
@@ -57,6 +58,7 @@ function App() {
                 
                 {/* Staff Routes */}
                 <Route path="staff/dashboard" element={<StaffDashboard />} />
+                <Route path="staff/86" element={<AvailabilityPanel />} />
                 
                 <Route path="*" element={<div className="p-8 text-center">404 - Not Found</div>} />
               </Route>
