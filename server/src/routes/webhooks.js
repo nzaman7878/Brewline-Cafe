@@ -4,6 +4,7 @@ import { Order } from '../models/Order.js';
 import { WebhookEvent } from '../models/WebhookEvent.js';
 import { getIO } from '../config/socket.js';
 import { notificationQueue } from '../services/notificationQueue.js';
+import { logger } from '../middleware/logger.js';
 
 const router = Router();
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_mock', {

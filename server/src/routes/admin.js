@@ -11,19 +11,22 @@ import { upload } from '../config/cloudinary.js';
 
 const router = Router();
 
+import { validateRequest } from '../middleware/auth.js';
+import { createMenuSchema, updateMenuSchema, createPromoSchema } from '../validations/admin.validation.js';
+
 // Protect all routes
 router.use(protect);
 router.use(authorize('admin'));
 
 // Menu
-router.post('/menu', upload.single('image'), createMenuItem);
-router.put('/menu/:id', upload.single('image'), updateMenuItem);
+router.post('/menu', upload.single('image'), validateRequest(createMenuSchema), createMenuItem);
+router.put('/menu/:id', upload.single('image'), validateRequest(updateMenuSchema), updateMenuItem);
 router.delete('/menu/:id', deleteMenuItem);
 
 // Promos
 router.get('/promo-codes', getPromoCodes);
-router.post('/promo-codes', createPromoCode);
-router.put('/promo-codes/:id', updatePromoCode);
+router.post('/promo-codes', validateRequest(createPromoSchema), createPromoCode);
+router.put('/promo-codes/:id', validateRequest(createPromoSchema), updatePromoCode);
 router.delete('/promo-codes/:id', deletePromoCode);
 
 // Orders & Refunds
