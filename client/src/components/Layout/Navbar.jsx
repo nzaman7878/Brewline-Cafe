@@ -4,9 +4,12 @@ import { Coffee, ShoppingBag, User } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { useCart } from '../../hooks/useCart';
 import { CartDrawer } from '../cart/CartDrawer';
+import { AuthContext } from '../../context/AuthContext';
+import { useContext } from 'react';
 
 export const Navbar = () => {
   const { cartItemCount } = useCart();
+  const { user, isAuthenticated, logout } = useContext(AuthContext);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
   return (
@@ -36,9 +39,44 @@ export const Navbar = () => {
                 </span>
               )}
             </Button>
-            <Button variant="ghost" size="icon">
-              <User size={20} />
-            </Button>
+            {isAuthenticated ? (
+              <div className="relative group">
+                <Button variant="ghost" size="icon" className="peer">
+                  <User size={20} className="text-primary" />
+                </Button>
+                <div className="absolute right-0 top-full mt-2 w-48 bg-surface border border-outline rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                  <div className="p-3 border-b border-outline">
+                    <p className="text-sm font-bold text-on-surface truncate">{user?.firstName} {user?.lastName}</p>
+                    <p className="text-xs text-on-surface-variant truncate">{user?.email}</p>
+                  </div>
+                  <div className="py-2 flex flex-col">
+                    <Link to="/orders" className="px-4 py-2 text-sm text-on-surface hover:bg-surface-variant transition-colors">
+                      Order History
+                    </Link>
+                    <Link to="/profile" className="px-4 py-2 text-sm text-on-surface hover:bg-surface-variant transition-colors">
+                      Profile Settings
+                    </Link>
+                    {user?.role === 'admin' && (
+                      <Link to="/admin/overview" className="px-4 py-2 text-sm text-primary hover:bg-surface-variant transition-colors">
+                        Admin Dashboard
+                      </Link>
+                    )}
+                    {['staff', 'admin'].includes(user?.role) && (
+                      <Link to="/staff" className="px-4 py-2 text-sm text-info hover:bg-surface-variant transition-colors">
+                        Staff Dashboard
+                      </Link>
+                    )}
+                    <button onClick={logout} className="w-full text-left px-4 py-2 text-sm text-error hover:bg-error/10 transition-colors mt-2 border-t border-outline">
+                      Logout
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <Button variant="ghost" size="icon" onClick={() => window.location.href = '/login'}>
+                <User size={20} />
+              </Button>
+            )}
           </div>
         </div>
       </nav>

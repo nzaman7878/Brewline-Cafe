@@ -14,6 +14,7 @@ import { Cart } from './pages/Cart';
 import { Checkout } from './pages/Checkout';
 import { OrderConfirmation } from './pages/OrderConfirmation';
 import { OrderTracking } from './pages/OrderTracking';
+import { OrderHistory } from './pages/OrderHistory';
 import { StaffDashboard } from './pages/staff/StaffDashboard';
 import { AvailabilityPanel } from './pages/staff/AvailabilityPanel';
 import { AdminDashboard } from './pages/admin/AdminDashboard';
@@ -46,9 +47,11 @@ function App() {
                 <Route path="login" element={<Login />} />
                 <Route path="register" element={<Register />} />
                 
-                {/* Protected Routes */}
+                {/* Private Routes */}
                 <Route element={<ProtectedRoute />}>
                   <Route path="profile" element={<Profile />} />
+                  <Route path="checkout" element={<Checkout />} />
+                  <Route path="orders" element={<OrderHistory />} />
                 </Route>
                 
                 {/* Menu & Cart & Checkout */}
