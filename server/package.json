@@ -5,6 +5,7 @@
   "main": "src/server.js",
   "type": "module",
   "scripts": {
+    "predev": "powershell -NoProfile -Command \"try { $p = (Get-NetTCPConnection -LocalPort 5000 -ErrorAction Stop).OwningProcess; Stop-Process -Id $p -Force; Write-Host 'Cleared port 5000' } catch { Write-Host 'Port 5000 is free' }\"",
     "dev": "nodemon src/server.js",
     "start": "node src/server.js",
     "seed": "node src/seeds/menuSeed.js",

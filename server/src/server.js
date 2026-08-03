@@ -23,6 +23,17 @@ const startServer = async () => {
       logger.info(`🔗 API: http://localhost:${env.PORT}/api`);
     });
 
+    // Handle port-in-use gracefully — exits so nodemon won't get stuck
+    server.on('error', (err) => {
+      if (err.code === 'EADDRINUSE') {
+        logger.error(`❌ Port ${env.PORT} is already in use. Exiting so nodemon can retry...`);
+        process.exit(1);
+      } else {
+        logger.error('Server error:', err);
+        process.exit(1);
+      }
+    });
+
     // Initialize Socket.io
     initSocket(server);
 
