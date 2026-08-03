@@ -26,6 +26,7 @@ import promoRoutes from './promo.js';
 import paymentRoutes from './payments.js';
 import orderRoutes from './orders.js';
 import staffRoutes from './staff.js';
+import adminRoutes from './admin.js';
 
 // ── Route Modules (will be added in subsequent phases) ──
 router.use('/auth', authRoutes);
@@ -35,6 +36,6 @@ router.use('/orders', orderRoutes);
 router.use('/promo', promoRoutes);
 router.use('/payments', paymentRoutes);
 router.use('/staff', staffRoutes);
-// router.use('/admin', adminRoutes);
+router.use('/admin', adminRoutes);
 
 export default router;

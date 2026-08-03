@@ -30,3 +30,9 @@ export const createPaymentIntent = async (amount, currency = 'usd', customerId, 
     },
   });
 };
+
+export const refundPaymentIntent = async (paymentIntentId) => {
+  return await stripe.refunds.create({
+    payment_intent: paymentIntentId,
+  });
+};
