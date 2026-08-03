@@ -20,6 +20,7 @@ import { AdminDashboard } from './pages/admin/AdminDashboard';
 import { MenuManager } from './pages/admin/MenuManager';
 import { PromoManager } from './pages/admin/PromoManager';
 import { OrderManager } from './pages/admin/OrderManager';
+import { Analytics } from './pages/admin/Analytics';
 
 function App() {
   return (
@@ -70,6 +71,7 @@ function App() {
                   <Route path="menu" element={<MenuManager />} />
                   <Route path="promos" element={<PromoManager />} />
                   <Route path="orders" element={<OrderManager />} />
+                  <Route path="analytics" element={<Analytics />} />
                 </Route>
                 
                 <Route path="*" element={<div className="p-8 text-center">404 - Not Found</div>} />

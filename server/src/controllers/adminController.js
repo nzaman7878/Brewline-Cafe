@@ -148,7 +148,7 @@ export const forceUpdateOrderStatus = asyncHandler(async (req, res) => {
 // ─── ANALYTICS ──────────────────────────────────────────────
 
 export const getAnalytics = asyncHandler(async (req, res) => {
-  const [totalRevenue, dailyRevenue, topItems] = await Promise.all([
+  const [totalRevenue, dailyRevenue, topItems, categories] = await Promise.all([
     // 1. Total lifetime revenue (completed orders)
     Order.aggregate([
       { $match: { status: 'completed' } },
@@ -181,6 +181,27 @@ export const getAnalytics = asyncHandler(async (req, res) => {
       },
       { $sort: { quantitySold: -1 } },
       { $limit: 10 }
+    ]),
+
+    // 4. Items sold by category
+    Order.aggregate([
+      { $match: { status: 'completed' } },
+      { $unwind: '$items' },
+      {
+        $lookup: {
+          from: 'menuitems',
+          localField: 'items.menuItemId',
+          foreignField: '_id',
+          as: 'menuItem'
+        }
+      },
+      { $unwind: '$menuItem' },
+      {
+        $group: {
+          _id: '$menuItem.category',
+          count: { $sum: '$items.quantity' }
+        }
+      }
     ])
   ]);
 
@@ -189,7 +210,8 @@ export const getAnalytics = asyncHandler(async (req, res) => {
     data: {
       totalRevenue: totalRevenue.length > 0 ? totalRevenue[0].revenue : 0,
       dailyRevenue,
-      topItems
+      topItems,
+      categories
     }
   });
 });
