@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ShoppingBag } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useMenu } from '../hooks/useMenu';
 import { useCart } from '../hooks/useCart';
 import { CategoryTabs } from '../components/menu/CategoryTabs';
@@ -12,6 +13,7 @@ export const Menu = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedMenuItem, setSelectedMenuItem] = useState(null);
+  const navigate = useNavigate();
   
   const { items, categories, isLoading, error } = useMenu(selectedCategory, searchQuery);
   const { cartItemCount } = useCart();
@@ -105,16 +107,20 @@ export const Menu = () => {
       </div>
 
       {/* Floating Cart Button */}
-      <div className="fixed bottom-6 right-6 z-40 animate-in fade-in slide-in-from-bottom-10 duration-700">
-        <button className="relative bg-primary text-on-primary p-4 rounded-full shadow-2xl hover:bg-secondary hover:-translate-y-1 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-primary/30">
-          <ShoppingBag size={28} />
-          {cartItemCount > 0 && (
+      {cartItemCount > 0 && (
+        <div className="fixed bottom-6 right-6 z-40 animate-in fade-in slide-in-from-bottom-10 duration-700">
+          <button 
+            onClick={() => navigate('/cart')}
+            className="relative bg-primary text-on-primary p-4 rounded-full shadow-2xl hover:bg-secondary hover:-translate-y-1 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-primary/30"
+            title="View Cart"
+          >
+            <ShoppingBag size={28} />
             <span className="absolute -top-2 -right-2 bg-error text-white text-xs font-bold w-6 h-6 flex items-center justify-center rounded-full shadow-md border-2 border-primary">
               {cartItemCount}
             </span>
-          )}
-        </button>
-      </div>
+          </button>
+        </div>
+      )}
 
       {/* Item Detail Modal */}
       <ItemDetail 

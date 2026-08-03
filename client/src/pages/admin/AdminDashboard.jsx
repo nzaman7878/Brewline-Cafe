@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { Navigate, Outlet, NavLink } from 'react-router-dom';
-import { LayoutDashboard, Coffee, Tag, Users, BarChart3 } from 'lucide-react';
+import { LayoutDashboard, Coffee, Tag, Users, BarChart3, ShoppingBag } from 'lucide-react';
 import { AuthContext } from '../../context/AuthContext';
 
 export const AdminDashboard = () => {
@@ -16,7 +16,7 @@ export const AdminDashboard = () => {
     { name: 'Overview', path: '/admin/overview', icon: LayoutDashboard },
     { name: 'Menu Manager', path: '/admin/menu', icon: Coffee },
     { name: 'Promotions', path: '/admin/promos', icon: Tag },
-    { name: 'Orders', path: '/admin/orders', icon: LayoutDashboard },
+    { name: 'Orders', path: '/admin/orders', icon: ShoppingBag },
     { name: 'Analytics', path: '/admin/analytics', icon: BarChart3 },
     { name: 'Users', path: '/admin/users', icon: Users },
   ];

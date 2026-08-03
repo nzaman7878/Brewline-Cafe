@@ -21,6 +21,7 @@ const Button = forwardRef(({
   const variants = {
     primary: "bg-primary text-on-primary hover:bg-secondary border border-transparent shadow-sm",
     secondary: "bg-surface-variant text-on-surface hover:bg-surface-variant/80 border border-outline",
+    outline: "bg-transparent text-on-surface hover:bg-surface-variant border border-outline",
     ghost: "bg-transparent text-primary hover:bg-primary/10",
     danger: "bg-error text-white hover:bg-error/90",
   };

@@ -5,12 +5,15 @@
   --color-secondary: #D4A574;
   --color-tertiary: #8B6914;
   --color-neutral-dark: #1A1412;
+  --color-background: #1A1412;
   --color-surface: #231917;
   --color-surface-variant: #2D2220;
   --color-success: #4CAF50;
   --color-error: #CF6679;
   --color-warning: #FFB74D;
+  --color-info: #64B5F6;
   --color-on-primary: #FFFFFF;
+  --color-on-error: #FFFFFF;
   --color-on-surface: #EDE0DB;
   --color-on-surface-variant: #B8A9A3;
   --color-outline: #3D2E2A;
