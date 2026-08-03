@@ -9,6 +9,19 @@ import { env } from '../config/env.js';
 
 const options = {
   level: env.NODE_ENV === 'production' ? 'info' : 'debug',
+  redact: {
+    paths: [
+      'req.headers.authorization',
+      'req.body.password',
+      'req.body.email',
+      'req.body.phone',
+      'req.body.guestEmail',
+      'req.body.guestPhone',
+      'req.body.cardNumber',
+      'req.body.cvc'
+    ],
+    censor: '[REDACTED]'
+  }
 };
 
 // Pretty print in development

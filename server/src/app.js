@@ -42,13 +42,13 @@ app.use(cors({
 }));
 
 import mongoSanitize from 'express-mongo-sanitize';
-import xss from 'xss-clean';
+import { xssSanitize } from './middleware/xss.js';
 import rateLimit from 'express-rate-limit';
 
 // Prevent NoSQL injection
 app.use(mongoSanitize());
 // Prevent XSS
-app.use(xss());
+app.use(xssSanitize());
 
 // Global Rate Limiting
 const globalLimiter = rateLimit({
