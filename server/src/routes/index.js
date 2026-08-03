@@ -23,6 +23,7 @@ router.get('/health', (req, res) => {
 
 import cartRoutes from './cart.js';
 import promoRoutes from './promo.js';
+import paymentRoutes from './payments.js';
 import orderRoutes from './orders.js';
 import staffRoutes from './staff.js';
 
