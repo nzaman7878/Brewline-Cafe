@@ -64,6 +64,11 @@ export const deleteMenuItem = asyncHandler(async (req, res) => {
 
 // ─── PROMO CODE CRUD ──────────────────────────────────────────────
 
+export const getPromoCodes = asyncHandler(async (req, res) => {
+  const promos = await PromoCode.find().sort('-createdAt');
+  res.status(200).json({ success: true, data: promos });
+});
+
 export const createPromoCode = asyncHandler(async (req, res) => {
   const promo = await PromoCode.create(req.body);
   res.status(201).json({ success: true, data: promo });

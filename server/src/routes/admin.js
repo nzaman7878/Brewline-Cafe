@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { 
   createMenuItem, updateMenuItem, deleteMenuItem,
-  createPromoCode, updatePromoCode, deletePromoCode,
+  getPromoCodes, createPromoCode, updatePromoCode, deletePromoCode,
   getOrders, refundOrder,
   getAnalytics,
   getUsers, updateUserRole
@@ -21,6 +21,7 @@ router.put('/menu/:id', upload.single('image'), updateMenuItem);
 router.delete('/menu/:id', deleteMenuItem);
 
 // Promos
+router.get('/promo-codes', getPromoCodes);
 router.post('/promo-codes', createPromoCode);
 router.put('/promo-codes/:id', updatePromoCode);
 router.delete('/promo-codes/:id', deletePromoCode);
