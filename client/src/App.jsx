@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
+import { HelmetProvider } from 'react-helmet-async';
 import { AuthProvider } from './context/AuthContext';
 import { SocketProvider } from './context/SocketContext';
 import { CartProvider } from './context/CartContext';
@@ -28,11 +29,12 @@ import { NotFound } from './pages/NotFound';
 
 function App() {
   return (
-    <AuthProvider>
-      <SocketProvider>
-        <CartProvider>
-          <BrowserRouter>
-            <Toaster 
+    <HelmetProvider>
+      <AuthProvider>
+        <SocketProvider>
+          <CartProvider>
+            <BrowserRouter>
+              <Toaster 
               position="bottom-center"
               toastOptions={{
                 style: {
@@ -88,6 +90,7 @@ function App() {
         </CartProvider>
       </SocketProvider>
     </AuthProvider>
+  </HelmetProvider>
   );
 }
 
