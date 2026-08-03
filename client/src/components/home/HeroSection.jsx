@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
-import { Button } from '../../ui/Button';
+import { Button } from '../ui/Button';
 import { motion } from 'framer-motion';
 
 export const HeroSection = () => {

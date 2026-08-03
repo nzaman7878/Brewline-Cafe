@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight, Coffee } from 'lucide-react';
 import api from '../../../api/axios';
-import { Button } from '../../ui/Button';
+import { Button } from '../ui/Button';
 
 export const FeaturedItems = () => {
   const [items, setItems] = useState([]);
